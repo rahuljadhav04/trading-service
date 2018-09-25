@@ -22,7 +22,15 @@ import com.jpmorgan.trader.domain.OutgoingAmount;
 import com.jpmorgan.trader.domain.OutgoingEntityRank;
 import com.jpmorgan.trader.value.EntityRankKey;
 import com.jpmorgan.trader.value.Message;
-
+/**
+ * This is mock data. In real world it would be replaced by JPA/Hibernate calls, named queries etc.
+ * 
+ * Here, it also have instruction set as input.
+ * Here, it acts as cache, memory database etc.
+ * We are doing sum, group by here in java but in real world it would be in SQL.
+ * @author Administrative
+ *
+ */
 public class MockData {
 	private static List<Instruction> instructionList = new ArrayList<>();
 

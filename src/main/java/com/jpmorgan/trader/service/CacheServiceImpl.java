@@ -5,7 +5,13 @@ import java.util.Map;
 
 import com.jpmorgan.trader.dao.CurrencyToWeekEndMappingDao;
 import com.jpmorgan.trader.dao.CurrencyToWeekEndMappingDaoImpl;
-
+/**
+ * Some data like currency to weekend mapping can be cached and refreshed on demand.
+ * 
+ * This would improve performance and avoid unnecessary DB calls
+ * @author Administrative
+ *
+ */
 public class CacheServiceImpl implements CacheService {
 
 	private static Map<String, String> currencyToWeekEndMap = new HashMap<String, String>();

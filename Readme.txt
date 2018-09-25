@@ -21,6 +21,8 @@ B) Report Data Saver Component
 1. Batch job would be created using ControlM or any other tool. 
 2. This batch job would run daily to fire query to group by, sum etc, and save data into report format into database.
 3. This database can be different database than above instruction database. It can be dedicated to report data and analysis.
+4. Incoming and Outgoing data is saved into different tables just to show that we can combine tables i.e. 
+   de-normalize to avoid JOIN QUERIES and improve performance for report generation and display.
 
 C) Report Generator
 
@@ -34,3 +36,4 @@ HOW TO RUN THIS PROGRAM
 2. Right click on project -> Maven -> Update Project
 3. Open "Application.java" and right click in eclipse and run as Java Application
 4. It should display report values as expected
+5. To add one more instruction, just add one more row in MockData.jaja for String[][] inputInstructionData.

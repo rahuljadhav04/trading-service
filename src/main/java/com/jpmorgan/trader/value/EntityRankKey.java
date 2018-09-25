@@ -1,7 +1,15 @@
 package com.jpmorgan.trader.value;
 
 import java.util.Date;
-
+/**
+ * This is key of hashmp where we are calculating rank of entity in java.
+ * 
+ * In real project, this class would not be present as we can have SQL query like 
+ * rank over (partitioned by amount) which would give us rank.
+ * since we would be using in map, equals(), hashcode() etc. methods overriden
+ * @author Administrative
+ *
+ */
 public final class EntityRankKey {
 
 	private final String entityName;

@@ -17,7 +17,14 @@ import com.jpmorgan.trader.domain.IncomingAmount;
 import com.jpmorgan.trader.domain.IncomingEntityRank;
 import com.jpmorgan.trader.domain.OutgoingAmount;
 import com.jpmorgan.trader.domain.OutgoingEntityRank;
-
+/**
+ * It would save instruction, trade, settlement data into Report format.
+ * This avoid JOINs required to get the report data while displaying report.
+ * 
+ * It would also have method to fetch the report data saved in report format
+ * @author Administrative
+ *
+ */
 public class ReportServiceImpl implements ReportService {
 	ReportDao reportDao = new ReportDaoImpl();
 	IncomingAmountDao incomingAmountDao = new IncomingAmountDaoImpl();

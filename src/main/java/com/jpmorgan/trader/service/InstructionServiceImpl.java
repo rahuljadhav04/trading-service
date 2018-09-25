@@ -9,7 +9,13 @@ import com.jpmorgan.trader.dao.InstructionDao;
 import com.jpmorgan.trader.dao.InstructionDaoImpl;
 import com.jpmorgan.trader.domain.Instruction;
 import com.jpmorgan.trader.util.TradingDateUtils;
-
+/**
+ * This class would save the instruction into database.
+ * IF the trade is successful it would save it with the settlement date and trade amount
+ * 
+ * @author Administrative
+ *
+ */
 public class InstructionServiceImpl implements InstructionService {
 	private InstructionDao instructionDao = new InstructionDaoImpl();
 	private CacheService cacheService = new CacheServiceImpl();
@@ -30,6 +36,9 @@ public class InstructionServiceImpl implements InstructionService {
 	}
 
 	@Override
+	/**
+	 * This would get the currency to weekend map. and it has logic to get next working date if settlement day is in weekend
+	 */
 	public Date getActualSettlementDate(Date settlementDate, String weekEnd) {
 		String day = TradingDateUtils.getDayFromDate(settlementDate);
 		while (weekEnd.contains(day)) {
