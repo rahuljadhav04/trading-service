@@ -3,7 +3,7 @@ package com.jpmorgan.trader.dao;
 import java.util.List;
 
 import com.jpmorgan.trader.domain.IncomingEntityRank;
-import com.jpmorgan.trader.mockdata.MockData;
+import com.jpmorgan.trader.mockdata.MockDataBase;
 //Separate DAO Interface is created. In real time it would be extending Spring JPA Repository interface.
 //Separate DAO IMPL would not be required as we would be using Spring JPA Repository
 //Spring JSP Repository add its own implementation runtime with methods like...save(),fetch(),getBy<PropertyName>() etc
@@ -12,11 +12,11 @@ import com.jpmorgan.trader.mockdata.MockData;
 public class IncomingEntityRankDaoImpl implements IncomingEntityRankDao {
 	@Override
 	public List<IncomingEntityRank> fetchAll() {
-		return MockData.getIncomingEntityRankEveryDay();
+		return MockDataBase.getIncomingEntityRankEveryDay();
 	}
 
 	@Override
 	public void saveAll(List<IncomingEntityRank> incomingEntityRankList) {
-		MockData.saveIncomingEntityRankEveryDay(incomingEntityRankList);
+		MockDataBase.saveIncomingEntityRankEveryDay(incomingEntityRankList);
 	}
 }

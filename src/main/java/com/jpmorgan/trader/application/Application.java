@@ -3,7 +3,7 @@ package com.jpmorgan.trader.application;
 import java.text.ParseException;
 
 import com.jpmorgan.trader.listener.InstructionListner;
-import com.jpmorgan.trader.mockdata.MockData;
+import com.jpmorgan.trader.mockdata.MockDataBase;
 import com.jpmorgan.trader.service.CacheService;
 import com.jpmorgan.trader.service.CacheServiceImpl;
 import com.jpmorgan.trader.service.ReportService;
@@ -37,7 +37,7 @@ public class Application {
 		// database
 		InstructionListner instructionListner = new InstructionListner();
 		// Get mock input data and send to listener
-		for (Message message : MockData.getInputMessages()) {
+		for (Message message : MockDataBase.getInputMessages()) {
 			instructionListner.onMessage(message);
 		}
 

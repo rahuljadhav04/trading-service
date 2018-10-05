@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.jpmorgan.trader.domain.CurrencyToWeekEndMapping;
-import com.jpmorgan.trader.mockdata.MockData;
+import com.jpmorgan.trader.mockdata.MockDataBase;
 //Separate DAO Interface is created. In real time it would be extending Spring JPA Repository interface.
 //Separate DAO IMPL would not be required as we would be using Spring JPA Repository
 //Spring JSP Repository add its own implementation runtime with methods like...save(),fetch(),getBy<PropertyName>() etc
@@ -23,7 +23,7 @@ public class CurrencyToWeekEndMappingDaoImpl implements CurrencyToWeekEndMapping
 		Map<String, String> currencyToWeekEndMap = new HashMap<>();
 		// Use spring jpa repository and its fetchAll() to get the master data from
 		// table CurrencyToWeekEndMapping
-		List<CurrencyToWeekEndMapping> currencyToWeekEndMappingList = MockData.getCurrencyToWeekEndMap();
+		List<CurrencyToWeekEndMapping> currencyToWeekEndMappingList = MockDataBase.getCurrencyToWeekEndMap();
 		currencyToWeekEndMap = currencyToWeekEndMappingList.stream().collect(
 				Collectors.toMap(CurrencyToWeekEndMapping::getCurrenncy, CurrencyToWeekEndMapping::getWeekEnd));
 		return currencyToWeekEndMap;

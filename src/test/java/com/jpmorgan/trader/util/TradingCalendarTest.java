@@ -6,11 +6,11 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
-public class TradingDateUtilsTest extends TestCase {
+public class TradingCalendarTest extends TestCase {
 
 	public void testGetDayFromDateRetrunDayInThreeLetterFormat() throws ParseException {
 
-		String day = TradingDateUtils
+		String day = TradingCalendar
 				.getDayFromDate(new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse("2018/09/21"));
 		assertTrue("FRI".equals(day));
 	}

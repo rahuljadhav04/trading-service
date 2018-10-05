@@ -6,7 +6,7 @@ import com.jpmorgan.trader.domain.IncomingAmount;
 import com.jpmorgan.trader.domain.IncomingEntityRank;
 import com.jpmorgan.trader.domain.OutgoingAmount;
 import com.jpmorgan.trader.domain.OutgoingEntityRank;
-import com.jpmorgan.trader.mockdata.MockData;
+import com.jpmorgan.trader.mockdata.MockDataBase;
 
 public class ReportDaoImpl implements ReportDao {
 
@@ -15,7 +15,7 @@ public class ReportDaoImpl implements ReportDao {
 		// Run query to get total outgoing amount everyday SUM()
 		// Group by BuyOrSellFlag, Actual Settlement Date
 		// Having buyOrSell Flag is "B"
-		return MockData.retrieveOutgoingAmountEveryDay();
+		return MockDataBase.retrieveOutgoingAmountEveryDay();
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class ReportDaoImpl implements ReportDao {
 		// Run query to get total outgoing amount everyday SUM()
 		// Group by BuyOrSellFlag, Actual Settlement Date
 		// Having buyOrSell Flag is "S"
-		return MockData.retrieveIncomingAmountEveryDay();
+		return MockDataBase.retrieveIncomingAmountEveryDay();
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class ReportDaoImpl implements ReportDao {
 		// Group by BuyOrSellFlag, Actual Settlement Date
 		// Having buyOrSell Flag is "B"
 		// rank over partition by total amount
-		return MockData.retrieveIncomingEntityRankEveryDay();
+		return MockDataBase.retrieveIncomingEntityRankEveryDay();
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class ReportDaoImpl implements ReportDao {
 		// Group by BuyOrSellFlag, Actual Settlement Date
 		// Having buyOrSell Flag is "S"
 		// rank over partition by total amount
-		return MockData.retrieveOutgoingEntityRankEveryDay();
+		return MockDataBase.retrieveOutgoingEntityRankEveryDay();
 	}
 
 }
