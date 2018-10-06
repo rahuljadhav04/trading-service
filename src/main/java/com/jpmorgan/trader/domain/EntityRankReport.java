@@ -5,12 +5,12 @@ import java.util.Date;
 //Use @Table, @Column annotations to define mapping to database tables using JPA/Hibernate
 //Incoming and Outgoing data is saved into different tables just to show that we can combine tables i.e. 
 //de-normalize to avoid JOIN QUERIES and improve performance for report generation and display.
-public class IncomingEntityRank {
+public class EntityRankReport {
 	private String entityname;
 	private long rank;
 	private Date date;
 
-	public IncomingEntityRank(String entityname, Date date, long rank) {
+	public EntityRankReport(String entityname, Date date, long rank) {
 		super();
 		this.entityname = entityname;
 		this.rank = rank;

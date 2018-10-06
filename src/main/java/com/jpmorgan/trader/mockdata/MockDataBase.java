@@ -14,14 +14,13 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import com.jpmorgan.trader.domain.AmountReport;
 import com.jpmorgan.trader.domain.CurrencyToWeekEndMapping;
-import com.jpmorgan.trader.domain.IncomingAmount;
-import com.jpmorgan.trader.domain.IncomingEntityRank;
+import com.jpmorgan.trader.domain.EntityRankReport;
 import com.jpmorgan.trader.domain.Instruction;
 import com.jpmorgan.trader.domain.Order;
-import com.jpmorgan.trader.domain.OutgoingAmount;
-import com.jpmorgan.trader.domain.OutgoingEntityRank;
 import com.jpmorgan.trader.domain.Trade;
+import com.jpmorgan.trader.domain.TradeDetails;
 import com.jpmorgan.trader.enums.OrderStatus;
 import com.jpmorgan.trader.value.EntityRankKey;
 import com.jpmorgan.trader.value.Message;
@@ -39,11 +38,11 @@ import com.jpmorgan.trader.value.Message;
  */
 public class MockDataBase {
 	private static List<Trade> tradeList = new ArrayList<>();
-	private static List<Instruction> instructionList = new ArrayList<>();
-	private static List<OutgoingAmount> outgoingAmountEveryDay = new ArrayList<>();
-	private static List<IncomingAmount> incomingAmountEveryDay = new ArrayList<>();
-	private static List<IncomingEntityRank> incomingEntityRankEveryDay = new ArrayList<>();
-	private static List<OutgoingEntityRank> outcomingEntityRankEveryDay = new ArrayList<>();
+	private static List<TradeDetails> tradeDetailsList = new ArrayList<>();
+	private static List<AmountReport> outgoingAmountEveryDay = new ArrayList<>();
+	private static List<AmountReport> incomingAmountEveryDay = new ArrayList<>();
+	private static List<EntityRankReport> incomingEntityRankEveryDay = new ArrayList<>();
+	private static List<EntityRankReport> outcomingEntityRankEveryDay = new ArrayList<>();
 	// Add data here if you want to test with more data
 	private static String[][] inputInstructionData = {
 			{ "foo", "B", "0.50", "SGP", "2016/01/01", "2016/01/02", "200", "100.25" },
@@ -117,66 +116,66 @@ public class MockDataBase {
 		return System.currentTimeMillis();
 	}
 
-	public static List<Instruction> getInstructionList() {
-		return instructionList;
+	public static List<Trade> getTradeList() {
+		return tradeList;
 	}
 
-	public static List<OutgoingAmount> retrieveOutgoingAmountEveryDay() {
-		List<OutgoingAmount> tradeAmountValueList = new ArrayList<>();
+	public static List<AmountReport> retrieveOutgoingAmountEveryDay() {
+		List<AmountReport> tradeAmountValueList = new ArrayList<>();
 		// here group by action and date and sum the amount for action "B"
 		// Here java 8 feature of Group By, sum etc, can be used
 		// not doing it due to time constraint
 		Map<Date, BigDecimal> outgoingAmountEveryDayMap = new HashMap<>();
-		for (Instruction instruction : instructionList) {
-			if ("B".equals(instruction.getAction())) {
-				if (outgoingAmountEveryDayMap.get(instruction.getActualSettlementDate()) == null) {
-					outgoingAmountEveryDayMap.put(instruction.getActualSettlementDate(),
-							instruction.getAmountOfTradeInUSD());
+		for (TradeDetails tradeDetails : tradeDetailsList) {
+			if ("B".equals(tradeDetails.getAction())) {
+				if (outgoingAmountEveryDayMap.get(tradeDetails.getSettlementDate()) == null) {
+					outgoingAmountEveryDayMap.put(tradeDetails.getSettlementDate(),
+							tradeDetails.getAmountOfTradeInUSD());
 				} else {
-					outgoingAmountEveryDayMap.get(instruction.getActualSettlementDate())
-							.add(instruction.getAmountOfTradeInUSD());
+					outgoingAmountEveryDayMap.get(tradeDetails.getSettlementDate())
+							.add(tradeDetails.getAmountOfTradeInUSD());
 				}
 			}
 		}
-		outgoingAmountEveryDayMap.forEach((key, value) -> tradeAmountValueList.add(new OutgoingAmount(value, key)));
+		outgoingAmountEveryDayMap.forEach((key, value) -> tradeAmountValueList.add(new AmountReport(value, key)));
 		return tradeAmountValueList;
 	}
 
-	public static List<IncomingAmount> retrieveIncomingAmountEveryDay() {
-		List<IncomingAmount> tradeAmountValueList = new ArrayList<>();
+	public static List<AmountReport> retrieveIncomingAmountEveryDay() {
+		List<AmountReport> tradeAmountValueList = new ArrayList<>();
 		// here group by action and date and sum the amount for action "S"
 		// Here java 8 feature of Group By, sum etc, can be used
 		// not doing it due to time constraint
 		Map<Date, BigDecimal> incomingAmountEveryDayMap = new HashMap<>();
-		for (Instruction instruction : instructionList) {
-			if ("S".equals(instruction.getAction())) {
-				if (incomingAmountEveryDayMap.get(instruction.getActualSettlementDate()) == null) {
-					incomingAmountEveryDayMap.put(instruction.getActualSettlementDate(),
-							instruction.getAmountOfTradeInUSD());
+		for (TradeDetails tradeDetails : tradeDetailsList) {
+			if ("S".equals(tradeDetails.getAction())) {
+				if (incomingAmountEveryDayMap.get(tradeDetails.getSettlementDate()) == null) {
+					incomingAmountEveryDayMap.put(tradeDetails.getSettlementDate(),
+							tradeDetails.getAmountOfTradeInUSD());
 				} else {
-					incomingAmountEveryDayMap.get(instruction.getActualSettlementDate())
-							.add(instruction.getAmountOfTradeInUSD());
+					incomingAmountEveryDayMap.get(tradeDetails.getSettlementDate())
+							.add(tradeDetails.getAmountOfTradeInUSD());
 				}
 			}
 		}
-		incomingAmountEveryDayMap.forEach((key, value) -> tradeAmountValueList.add(new IncomingAmount(value, key)));
+		incomingAmountEveryDayMap.forEach((key, value) -> tradeAmountValueList.add(new AmountReport(value, key)));
 		return tradeAmountValueList;
 	}
 
-	public static List<IncomingEntityRank> retrieveIncomingEntityRankEveryDay() {
-		List<IncomingEntityRank> entityRankList = new ArrayList<>();
+	public static List<EntityRankReport> retrieveIncomingEntityRankEveryDay() {
+		List<EntityRankReport> entityRankList = new ArrayList<>();
 		// here group by action,date and entity and rank the entity for action "B"
 		// Here java 8 feature of Group By, sum, max, order by etc, can be used
 		// not doing it due to time constraint
 		Map<EntityRankKey, BigDecimal> incomingEntityRankEveryDayMap = new HashMap<>();
-		for (Instruction instruction : instructionList) {
-			if ("B".equals(instruction.getAction())) {
-				EntityRankKey entityRankKey = new EntityRankKey(instruction.getEntityName(),
-						instruction.getActualSettlementDate());
+		for (TradeDetails tradeDetails : tradeDetailsList) {
+			if ("B".equals(tradeDetails.getAction())) {
+				EntityRankKey entityRankKey = new EntityRankKey(tradeDetails.getEntityName(),
+						tradeDetails.getSettlementDate());
 				if (incomingEntityRankEveryDayMap.get(entityRankKey) == null) {
-					incomingEntityRankEveryDayMap.put(entityRankKey, instruction.getAmountOfTradeInUSD());
+					incomingEntityRankEveryDayMap.put(entityRankKey, tradeDetails.getAmountOfTradeInUSD());
 				} else {
-					incomingEntityRankEveryDayMap.get(entityRankKey).add(instruction.getAmountOfTradeInUSD());
+					incomingEntityRankEveryDayMap.get(entityRankKey).add(tradeDetails.getAmountOfTradeInUSD());
 				}
 			}
 		}
@@ -186,24 +185,24 @@ public class MockDataBase {
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 		final AtomicInteger rank = new AtomicInteger(0);
 		incomingEntityRankEveryDayMap.forEach((key, value) -> entityRankList
-				.add(new IncomingEntityRank(key.getEntityName(), key.getDate(), rank.incrementAndGet())));
+				.add(new EntityRankReport(key.getEntityName(), key.getDate(), rank.incrementAndGet())));
 		return entityRankList;
 	}
 
-	public static List<OutgoingEntityRank> retrieveOutgoingEntityRankEveryDay() {
-		List<OutgoingEntityRank> entityRankList = new ArrayList<>();
+	public static List<EntityRankReport> retrieveOutgoingEntityRankEveryDay() {
+		List<EntityRankReport> entityRankList = new ArrayList<>();
 		// here group by action,date and entity and rank the entity for action "S"
 		// Here java 8 feature of Group By, sum, max, order by etc, can be used
 		// not doing it due to time constraint
 		Map<EntityRankKey, BigDecimal> outgoingEntityRankEveryDayMap = new HashMap<>();
-		for (Instruction instruction : instructionList) {
-			if ("S".equals(instruction.getAction())) {
-				EntityRankKey entityRankKey = new EntityRankKey(instruction.getEntityName(),
-						instruction.getActualSettlementDate());
+		for (TradeDetails tradeDetails : tradeDetailsList) {
+			if ("S".equals(tradeDetails.getAction())) {
+				EntityRankKey entityRankKey = new EntityRankKey(tradeDetails.getEntityName(),
+						tradeDetails.getSettlementDate());
 				if (outgoingEntityRankEveryDayMap.get(entityRankKey) == null) {
-					outgoingEntityRankEveryDayMap.put(entityRankKey, instruction.getAmountOfTradeInUSD());
+					outgoingEntityRankEveryDayMap.put(entityRankKey, tradeDetails.getAmountOfTradeInUSD());
 				} else {
-					outgoingEntityRankEveryDayMap.get(entityRankKey).add(instruction.getAmountOfTradeInUSD());
+					outgoingEntityRankEveryDayMap.get(entityRankKey).add(tradeDetails.getAmountOfTradeInUSD());
 				}
 			}
 		}
@@ -213,44 +212,8 @@ public class MockDataBase {
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 		final AtomicInteger rank = new AtomicInteger(0);
 		outgoingEntityRankEveryDayMap.forEach((key, value) -> entityRankList
-				.add(new OutgoingEntityRank(key.getEntityName(), key.getDate(), rank.incrementAndGet())));
+				.add(new EntityRankReport(key.getEntityName(), key.getDate(), rank.incrementAndGet())));
 		return entityRankList;
-	}
-
-	public static void saveOutgoingAmountEveryDay(List<OutgoingAmount> tradeAmountValueList) {
-		outgoingAmountEveryDay = tradeAmountValueList;
-	}
-
-	public static void saveIncomingAmountEveryDay(List<IncomingAmount> tradeAmountValueList) {
-		incomingAmountEveryDay = tradeAmountValueList;
-	}
-
-	public static void saveIncomingEntityRankEveryDay(List<IncomingEntityRank> entityRankList) {
-		incomingEntityRankEveryDay = entityRankList;
-	}
-
-	public static void saveOutgoingEntityRankEveryDay(List<OutgoingEntityRank> entityRankList) {
-		outcomingEntityRankEveryDay = entityRankList;
-	}
-
-	public static List<OutgoingAmount> getOutgoingAmountEveryDay() {
-		return outgoingAmountEveryDay;
-	}
-
-	public static List<IncomingAmount> getIncomingAmountEveryDay() {
-		return incomingAmountEveryDay;
-	}
-
-	public static List<IncomingEntityRank> getIncomingEntityRankEveryDay() {
-		return incomingEntityRankEveryDay;
-	}
-
-	public static List<OutgoingEntityRank> getOutcomingEntityRankEveryDay() {
-		return outcomingEntityRankEveryDay;
-	}
-
-	public static String[][] getInputInstructionData() {
-		return inputInstructionData;
 	}
 
 	public static List<Message> getInputMessages() {
@@ -261,6 +224,14 @@ public class MockDataBase {
 			inputMessages.add(message);
 		}
 		return inputMessages;
+	}
+
+	public static List<TradeDetails> getTradeDetailsList() {
+		return tradeDetailsList;
+	}
+
+	public static void saveTradeDetails(List<TradeDetails> tradeDetailsListP) {
+		tradeDetailsList = tradeDetailsListP;
 	}
 
 }

@@ -2,16 +2,16 @@ package com.jpmorgan.trader.dao;
 
 import java.util.List;
 
-import com.jpmorgan.trader.domain.IncomingAmount;
-import com.jpmorgan.trader.domain.IncomingEntityRank;
-import com.jpmorgan.trader.domain.OutgoingAmount;
-import com.jpmorgan.trader.domain.OutgoingEntityRank;
+import com.jpmorgan.trader.domain.AmountReport;
+import com.jpmorgan.trader.domain.EntityRankReport;
+import com.jpmorgan.trader.domain.Trade;
+import com.jpmorgan.trader.domain.TradeDetails;
 import com.jpmorgan.trader.mockdata.MockDataBase;
 
 public class ReportDaoImpl implements ReportDao {
 
 	@Override
-	public List<OutgoingAmount> retrieveOutgoingAmountEveryDay() {
+	public List<AmountReport> retrieveOutgoingAmountEveryDay() {
 		// Run query to get total outgoing amount everyday SUM()
 		// Group by BuyOrSellFlag, Actual Settlement Date
 		// Having buyOrSell Flag is "B"
@@ -19,7 +19,7 @@ public class ReportDaoImpl implements ReportDao {
 	}
 
 	@Override
-	public List<IncomingAmount> retrieveIncomingAmountEveryDay() {
+	public List<AmountReport> retrieveIncomingAmountEveryDay() {
 		// Run query to get total outgoing amount everyday SUM()
 		// Group by BuyOrSellFlag, Actual Settlement Date
 		// Having buyOrSell Flag is "S"
@@ -27,7 +27,7 @@ public class ReportDaoImpl implements ReportDao {
 	}
 
 	@Override
-	public List<IncomingEntityRank> retrieveIncomingEntityRankEveryDay() {
+	public List<EntityRankReport> retrieveIncomingEntityRankEveryDay() {
 		// Run query to get rank of entity everyday based upon amount in USD
 		// Group by BuyOrSellFlag, Actual Settlement Date
 		// Having buyOrSell Flag is "B"
@@ -36,12 +36,24 @@ public class ReportDaoImpl implements ReportDao {
 	}
 
 	@Override
-	public List<OutgoingEntityRank> retrieveOutgoingEntityRankEveryDay() {
+	public List<EntityRankReport> retrieveOutgoingEntityRankEveryDay() {
 		// Run query to get rank of entity everyday based upon amount in USD
 		// Group by BuyOrSellFlag, Actual Settlement Date
 		// Having buyOrSell Flag is "S"
 		// rank over partition by total amount
 		return MockDataBase.retrieveOutgoingEntityRankEveryDay();
+	}
+
+	@Override
+	public List<Trade> retrieveTrades() {
+		// Run query to get Report data by applying JOIN etc. query
+		// Here it is just getting from MockDatabase
+		return MockDataBase.getTradeList();
+	}
+
+	@Override
+	public void saveTradeDetails(List<TradeDetails> tradeDetailsList) {
+		MockDataBase.saveTradeDetails(tradeDetailsList);
 	}
 
 }

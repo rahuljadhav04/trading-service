@@ -3,6 +3,8 @@ package com.jpmorgan.trader.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.jpmorgan.trader.enums.TradeStatus;
+
 public class TradeDetails {
 
 	private long tradeId;
@@ -14,9 +16,11 @@ public class TradeDetails {
 	private String currency;
 	private long units;
 	private BigDecimal pricePerUnit;
-	private String tradeStatus;
+	private TradeStatus tradeStatus;
 	private Date settlementDate;
 	private String settlementMessage;
+	private Date instructionDate;
+	private BigDecimal amountOfTradeInUSD;
 
 	public long getTradeId() {
 		return tradeId;
@@ -40,6 +44,14 @@ public class TradeDetails {
 
 	public void setEntityName(String entityName) {
 		this.entityName = entityName;
+	}
+
+	public TradeStatus getTradeStatus() {
+		return tradeStatus;
+	}
+
+	public void setTradeStatus(TradeStatus tradeStatus) {
+		this.tradeStatus = tradeStatus;
 	}
 
 	public String getAction() {
@@ -90,14 +102,6 @@ public class TradeDetails {
 		this.pricePerUnit = pricePerUnit;
 	}
 
-	public String getTradeStatus() {
-		return tradeStatus;
-	}
-
-	public void setTradeStatus(String tradeStatus) {
-		this.tradeStatus = tradeStatus;
-	}
-
 	public Date getSettlementDate() {
 		return settlementDate;
 	}
@@ -112,6 +116,22 @@ public class TradeDetails {
 
 	public void setSettlementMessage(String settlementMessage) {
 		this.settlementMessage = settlementMessage;
+	}
+
+	public Date getInstructionDate() {
+		return instructionDate;
+	}
+
+	public void setInstructionDate(Date instructionDate) {
+		this.instructionDate = instructionDate;
+	}
+
+	public BigDecimal getAmountOfTradeInUSD() {
+		return amountOfTradeInUSD;
+	}
+
+	public void setAmountOfTradeInUSD(BigDecimal amountOfTradeInUSD) {
+		this.amountOfTradeInUSD = amountOfTradeInUSD;
 	}
 
 }

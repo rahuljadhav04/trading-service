@@ -2,18 +2,22 @@ package com.jpmorgan.trader.dao;
 
 import java.util.List;
 
-import com.jpmorgan.trader.domain.IncomingAmount;
-import com.jpmorgan.trader.domain.IncomingEntityRank;
-import com.jpmorgan.trader.domain.OutgoingAmount;
-import com.jpmorgan.trader.domain.OutgoingEntityRank;
+import com.jpmorgan.trader.domain.AmountReport;
+import com.jpmorgan.trader.domain.EntityRankReport;
+import com.jpmorgan.trader.domain.Trade;
+import com.jpmorgan.trader.domain.TradeDetails;
 
 public interface ReportDao {
-	List<OutgoingAmount> retrieveOutgoingAmountEveryDay();
+	List<AmountReport> retrieveOutgoingAmountEveryDay();
 
-	List<IncomingAmount> retrieveIncomingAmountEveryDay();
+	List<AmountReport> retrieveIncomingAmountEveryDay();
 
-	List<IncomingEntityRank> retrieveIncomingEntityRankEveryDay();
+	List<EntityRankReport> retrieveIncomingEntityRankEveryDay();
 
-	List<OutgoingEntityRank> retrieveOutgoingEntityRankEveryDay();
+	List<EntityRankReport> retrieveOutgoingEntityRankEveryDay();
+
+	List<Trade> retrieveTrades();
+
+	void saveTradeDetails(List<TradeDetails> tradeDetailsList);
 
 }
