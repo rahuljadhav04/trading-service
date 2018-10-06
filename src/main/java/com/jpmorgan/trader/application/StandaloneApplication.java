@@ -29,7 +29,7 @@ import com.jpmorgan.trader.value.Message;
  * @author Administrative
  *
  */
-public class Application {
+public class StandaloneApplication {
 	public static void main(String[] args) throws ParseException {
 		// cache initialize to get currency and weekend mapping from database
 		// this would be static data cached.
