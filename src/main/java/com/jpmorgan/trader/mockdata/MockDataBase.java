@@ -39,10 +39,7 @@ import com.jpmorgan.trader.value.Message;
 public class MockDataBase {
 	private static List<Trade> tradeList = new ArrayList<>();
 	private static List<TradeDetails> tradeDetailsList = new ArrayList<>();
-	private static List<AmountReport> outgoingAmountEveryDay = new ArrayList<>();
-	private static List<AmountReport> incomingAmountEveryDay = new ArrayList<>();
-	private static List<EntityRankReport> incomingEntityRankEveryDay = new ArrayList<>();
-	private static List<EntityRankReport> outcomingEntityRankEveryDay = new ArrayList<>();
+
 	// Add data here if you want to test with more data
 	private static String[][] inputInstructionData = {
 			{ "foo", "B", "0.50", "SGP", "2016/01/01", "2016/01/02", "200", "100.25" },

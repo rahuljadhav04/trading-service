@@ -1,10 +1,10 @@
 package com.jpmorgan.trader.value;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class AmountReport implements Serializable {
+public class AmountReport {
+
 	private BigDecimal amount;
 	private Date date;
 
