@@ -2,10 +2,10 @@ package com.jpmorgan.trader.dao;
 
 import java.util.List;
 
-import com.jpmorgan.trader.domain.AmountReport;
-import com.jpmorgan.trader.domain.EntityRankReport;
 import com.jpmorgan.trader.domain.Trade;
 import com.jpmorgan.trader.domain.TradeDetails;
+import com.jpmorgan.trader.value.AmountReport;
+import com.jpmorgan.trader.value.EntityRankReport;
 
 public interface ReportDao {
 	List<AmountReport> retrieveOutgoingAmountEveryDay();

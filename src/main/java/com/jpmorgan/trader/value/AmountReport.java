@@ -1,12 +1,10 @@
-package com.jpmorgan.trader.domain;
+package com.jpmorgan.trader.value;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-//Use @Table, @Column annotations to define mapping to database tables using JPA/Hibernate
-//Incoming and Outgoing data is saved into different tables just to show that we can combine tables i.e. 
-//de-normalize to avoid JOIN QUERIES and improve performance for report generation and display.
-public class AmountReport {
+public class AmountReport implements Serializable {
 	private BigDecimal amount;
 	private Date date;
 

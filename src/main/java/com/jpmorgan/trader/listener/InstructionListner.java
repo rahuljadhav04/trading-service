@@ -30,7 +30,8 @@ public class InstructionListner {
 	OrderService orderService = new OrderServiceImpl();
 	TradeService tradeService = new TradeServiceImpl();
 
-	// Use JMSListener annotation here so this method will get automatically called
+	// In real world, Use JMSListener annotation here so this method will get
+	// automatically called
 	// when message sent to JMS Queue
 	public void onMessage(Message message) throws ParseException {
 		String[] jsonString = message.getJsonString();

@@ -6,13 +6,13 @@ import java.util.List;
 
 import com.jpmorgan.trader.dao.ReportDao;
 import com.jpmorgan.trader.dao.ReportDaoImpl;
-import com.jpmorgan.trader.domain.AmountReport;
-import com.jpmorgan.trader.domain.EntityRankReport;
 import com.jpmorgan.trader.domain.Trade;
 import com.jpmorgan.trader.domain.TradeDetails;
+import com.jpmorgan.trader.value.AmountReport;
+import com.jpmorgan.trader.value.EntityRankReport;
 
 /**
- * It would save instruction, trade, settlement data into Report format. This
+ * It would save instruction, trade, settlement date into Report format. This
  * avoid JOINs required to get the report data while displaying report.
  * 
  * It would also have method to fetch the report data saved in report format

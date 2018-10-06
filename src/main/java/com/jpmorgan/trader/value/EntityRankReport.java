@@ -1,10 +1,7 @@
-package com.jpmorgan.trader.domain;
+package com.jpmorgan.trader.value;
 
 import java.util.Date;
 
-//Use @Table, @Column annotations to define mapping to database tables using JPA/Hibernate
-//Incoming and Outgoing data is saved into different tables just to show that we can combine tables i.e. 
-//de-normalize to avoid JOIN QUERIES and improve performance for report generation and display.
 public class EntityRankReport {
 	private String entityname;
 	private long rank;

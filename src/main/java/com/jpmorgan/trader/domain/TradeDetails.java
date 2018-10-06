@@ -1,12 +1,13 @@
 package com.jpmorgan.trader.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 import com.jpmorgan.trader.enums.TradeStatus;
 
-public class TradeDetails {
-
+public class TradeDetails implements Serializable {
+	private static final long serialVersionUID = -6255500078578746987L;
 	private long tradeId;
 	private long orderId;
 	private long instructionId;

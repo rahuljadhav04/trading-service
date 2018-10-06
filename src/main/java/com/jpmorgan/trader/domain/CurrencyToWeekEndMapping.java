@@ -1,7 +1,10 @@
 package com.jpmorgan.trader.domain;
 
+import java.io.Serializable;
+
 //Use @Table, @Column annotations to define mapping to database tables using JPA/Hibernate
-public class CurrencyToWeekEndMapping {
+public class CurrencyToWeekEndMapping implements Serializable {
+	private static final long serialVersionUID = -6789399513277610498L;
 	private String currenncy;
 	private String weekEnd;
 

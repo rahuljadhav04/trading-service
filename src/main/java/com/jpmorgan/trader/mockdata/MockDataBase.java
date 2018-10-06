@@ -14,15 +14,15 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import com.jpmorgan.trader.domain.AmountReport;
 import com.jpmorgan.trader.domain.CurrencyToWeekEndMapping;
-import com.jpmorgan.trader.domain.EntityRankReport;
 import com.jpmorgan.trader.domain.Instruction;
 import com.jpmorgan.trader.domain.Order;
 import com.jpmorgan.trader.domain.Trade;
 import com.jpmorgan.trader.domain.TradeDetails;
 import com.jpmorgan.trader.enums.OrderStatus;
+import com.jpmorgan.trader.value.AmountReport;
 import com.jpmorgan.trader.value.EntityRankKey;
+import com.jpmorgan.trader.value.EntityRankReport;
 import com.jpmorgan.trader.value.Message;
 
 /**

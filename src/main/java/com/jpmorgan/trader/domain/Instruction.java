@@ -1,11 +1,12 @@
 package com.jpmorgan.trader.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 //Use @Table, @Column annotations to define mapping to database tables using JPA/Hibernate
-public class Instruction {
-
+public class Instruction implements Serializable {
+	private static final long serialVersionUID = -2795125739069473256L;
 	private long instructionId;
 	private String entityName;
 	private String action;
