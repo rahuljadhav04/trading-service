@@ -1,5 +1,17 @@
+/*
+ * 
+ */
 package com.jpmorgan.trader.enums;
 
+/**
+ * The Enum OrderStatus.
+ */
 public enum OrderStatus {
-	SUCCESS, REJECTED, PENDING
+	
+	/** The success. */
+	SUCCESS, 
+ /** The rejected. */
+ REJECTED, 
+ /** The pending. */
+ PENDING
 }

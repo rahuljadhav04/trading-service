@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.jpmorgan.trader.service;
 
 import java.math.BigDecimal;
@@ -11,13 +14,23 @@ import com.jpmorgan.trader.domain.Trade;
 import com.jpmorgan.trader.enums.TradeStatus;
 import com.jpmorgan.trader.util.TradingCalendar;
 
+/**
+ * The Class TradeServiceImpl.
+ */
 @Service
 public class TradeServiceImpl implements TradeService {
+	
+	/** The trade dao. */
 	@Autowired
 	private TradeDao tradeDao;
+	
+	/** The cache service. */
 	@Autowired
 	private CacheService cacheService;
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.service.TradeService#saveTrade(com.jpmorgan.trader.domain.Order)
+	 */
 	@Override
 	public Trade saveTrade(Order order) {
 		Trade trade = new Trade();
@@ -33,6 +46,12 @@ public class TradeServiceImpl implements TradeService {
 		return tradeDao.saveTrade(trade);
 	}
 
+	/**
+	 * Calculate amount of trade in USD.
+	 *
+	 * @param order the order
+	 * @return the big decimal
+	 */
 	private BigDecimal calculateAmountOfTradeInUSD(Order order) {
 		return order.getInstruction().getAgreedFx().multiply(order.getPricePerUnit())
 				.multiply(new BigDecimal(order.getUnits()));

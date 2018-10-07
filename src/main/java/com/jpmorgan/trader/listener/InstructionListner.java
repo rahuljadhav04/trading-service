@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.jpmorgan.trader.listener;
 
 import java.text.ParseException;
@@ -25,15 +28,26 @@ import com.jpmorgan.trader.service.TradeService;
 @Component
 public class InstructionListner {
 
+	/** The instruction service. */
 	@Autowired
 	private InstructionService instructionService;
+	
+	/** The order service. */
 	@Autowired
 	private OrderService orderService;
+	
+	/** The trade service. */
 	@Autowired
 	private TradeService tradeService;
 
 	// In real world, Use JMSListener annotation here so this method will get
 	// automatically called
+	/**
+	 * On message.
+	 *
+	 * @param instruction the instruction
+	 * @throws ParseException the parse exception
+	 */
 	// when message sent to JMS Queue
 	public void onMessage(Instruction instruction) throws ParseException {
 

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.jpmorgan.trader.upload;
 
 import java.io.File;
@@ -26,12 +29,19 @@ import org.springframework.stereotype.Component;
 @Profile("dev")
 public class InstructionInputLoader {
 
+	/** The instruction input path. */
 	@Value("${instruction.input.path}")
 	public String instructionInputPath;
 
+	/** The instruction upload path. */
 	@Value("${instruction.upload.path}")
 	public String instructionUploadPath;
 
+	/**
+	 * Upload instructions for polling.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@PostConstruct
 	public void uploadInstructionsForPolling() throws IOException {
 		FileUtils.copyDirectory(new File(instructionUploadPath), new File(instructionInputPath));

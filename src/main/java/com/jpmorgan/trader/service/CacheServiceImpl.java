@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.jpmorgan.trader.service;
 
 import java.util.HashMap;
@@ -22,16 +25,25 @@ import com.jpmorgan.trader.dao.CurrencyToWeekEndMappingDao;
 @Service
 public class CacheServiceImpl implements CacheService {
 
+	/** The currency to week end map. */
 	private static Map<String, String> currencyToWeekEndMap = new HashMap<String, String>();
+	
+	/** The currency to week end mapping dao. */
 	@Autowired
 	private CurrencyToWeekEndMappingDao currencyToWeekEndMappingDao;
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.service.CacheService#getCurrencyToWeekEndMap()
+	 */
 	@Override
 	public Map<String, String> getCurrencyToWeekEndMap() {
 		return currencyToWeekEndMap;
 	}
 
 	// Use spring @CacheBuilder, @EnableCache annotation here to run automatically
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.service.CacheService#initializeCache()
+	 */
 	// on spring boot start
 	@Override
 	@PostConstruct
@@ -41,6 +53,9 @@ public class CacheServiceImpl implements CacheService {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.service.CacheService#refreshCache()
+	 */
 	@Override
 	public void refreshCache() {
 		// refresh as batch job daily or by admin page on request

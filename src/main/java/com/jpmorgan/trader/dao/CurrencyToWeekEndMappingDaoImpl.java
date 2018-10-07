@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.jpmorgan.trader.dao;
 
 import java.util.HashMap;
@@ -15,6 +18,9 @@ import com.jpmorgan.trader.mockdata.MockDataBase;
 //Spring JSP Repository add its own implementation runtime with methods like...save(),fetch(),getBy<PropertyName>() etc
 //So this IMPL won't be required.
 //Here it is added as we are not using spring jpa repository for now and we are getting the mock data
+/**
+ * The Class CurrencyToWeekEndMappingDaoImpl.
+ */
 /*
  * This will get Currency to weekend mapping from database.The rteuned map would in the format 
  * {"RUPEE", "SAT,SUN"},{"DOLLAR","SAT,SUN"}
@@ -22,6 +28,9 @@ import com.jpmorgan.trader.mockdata.MockDataBase;
 @Repository
 public class CurrencyToWeekEndMappingDaoImpl implements CurrencyToWeekEndMappingDao {
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.dao.CurrencyToWeekEndMappingDao#getCurrencyToWeekEndMap()
+	 */
 	@Override
 	public Map<String, String> getCurrencyToWeekEndMap() {
 		Map<String, String> currencyToWeekEndMap = new HashMap<>();

@@ -1,8 +1,11 @@
 instruction: 
    input:
       path: ./src/main/resources/instruction/input/
-   done:
+      pattern: "*.ins"
+   done: 
       path: ./src/main/resources/instruction/done/
+   success: 
+      path: ./src/main/resources/instruction/success/
    error: 
       path: ./src/main/resources/instruction/error/
    upload:

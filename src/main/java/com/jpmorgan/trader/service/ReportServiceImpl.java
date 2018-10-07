@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.jpmorgan.trader.service;
 
 import java.text.SimpleDateFormat;
@@ -24,11 +27,17 @@ import com.jpmorgan.trader.value.EntityRankReport;
  */
 @Service
 public class ReportServiceImpl implements ReportService {
+	
+	/** The report dao. */
 	@Autowired
 	private ReportDao reportDao;
 
+	/** The Constant DATE_DISPLAY_FORMAT. */
 	private static final String DATE_DISPLAY_FORMAT = "dd-MMM-yy";
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.service.ReportService#saveReport()
+	 */
 	@Override
 	public void saveReport() {
 
@@ -57,6 +66,9 @@ public class ReportServiceImpl implements ReportService {
 		reportDao.saveTradeDetails(tradeDetailsList);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.service.ReportService#generateReport()
+	 */
 	@Override
 	public void generateReport() {
 
@@ -74,22 +86,32 @@ public class ReportServiceImpl implements ReportService {
 		// here we will just print values
 
 		// INCOMING AMOUNT
+		System.out.println("############################################");
+		System.out.println(
+				"\n\n----Incoming Amount Report - For the Instructions Turned Into Trades Successfully--------");
 		tradeAmountIncomingValueList.stream().forEach(i -> System.out.println("Settlement Date:"
 				+ new SimpleDateFormat(DATE_DISPLAY_FORMAT).format(i.getDate()) + ", Total Incoming:" + i.getAmount()));
 
 		// OUTGOING AMOUNT
+		System.out.println(
+				"\n\n----Outgoing Amount Report - For the Instructions Turned Into Trades Successfully--------");
 		tradeAmountOutgoingValueList.stream().forEach(i -> System.out.println("Settlement Date:"
 				+ new SimpleDateFormat(DATE_DISPLAY_FORMAT).format(i.getDate()) + ", Total Outgoing:" + i.getAmount()));
 
 		// INCOMING ENTITY RANK
+		System.out.println(
+				"\n\n----Incoming Enity With Rank Report - For the Instructions Turned Into Trades Successfully--------");
 		entityRankIncomingList.stream()
 				.forEach(e -> System.out.println("Incoming Entity Name:" + e.getEntityname() + ", Settlement Date:"
 						+ new SimpleDateFormat(DATE_DISPLAY_FORMAT).format(e.getDate()) + ", Rank:" + e.getRank()));
 
 		// OUTGOING ENTITY RANK
+		System.out.println(
+				"\n\n----Outgoing Enity With Rank Report - For the Instructions Turned Into Trades Successfully--------");
 		entityRankOutgoingList.stream()
 				.forEach(e -> System.out.println("Outgoing Entity Name:" + e.getEntityname() + ", Settlement Date:"
 						+ new SimpleDateFormat(DATE_DISPLAY_FORMAT).format(e.getDate()) + ", Rank:" + e.getRank()));
+		System.out.println("\n\n############################################");
 
 	}
 

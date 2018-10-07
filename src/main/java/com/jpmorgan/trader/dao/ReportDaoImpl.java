@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.jpmorgan.trader.dao;
 
 import java.util.List;
@@ -10,9 +13,15 @@ import com.jpmorgan.trader.mockdata.MockDataBase;
 import com.jpmorgan.trader.value.AmountReport;
 import com.jpmorgan.trader.value.EntityRankReport;
 
+/**
+ * The Class ReportDaoImpl.
+ */
 @Repository
 public class ReportDaoImpl implements ReportDao {
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.dao.ReportDao#retrieveOutgoingAmountEveryDay()
+	 */
 	@Override
 	public List<AmountReport> retrieveOutgoingAmountEveryDay() {
 		// Run query to get total outgoing amount everyday SUM()
@@ -21,6 +30,9 @@ public class ReportDaoImpl implements ReportDao {
 		return MockDataBase.retrieveOutgoingAmountEveryDay();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.dao.ReportDao#retrieveIncomingAmountEveryDay()
+	 */
 	@Override
 	public List<AmountReport> retrieveIncomingAmountEveryDay() {
 		// Run query to get total outgoing amount everyday SUM()
@@ -29,6 +41,9 @@ public class ReportDaoImpl implements ReportDao {
 		return MockDataBase.retrieveIncomingAmountEveryDay();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.dao.ReportDao#retrieveIncomingEntityRankEveryDay()
+	 */
 	@Override
 	public List<EntityRankReport> retrieveIncomingEntityRankEveryDay() {
 		// Run query to get rank of entity everyday based upon amount in USD
@@ -38,6 +53,9 @@ public class ReportDaoImpl implements ReportDao {
 		return MockDataBase.retrieveIncomingEntityRankEveryDay();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.dao.ReportDao#retrieveOutgoingEntityRankEveryDay()
+	 */
 	@Override
 	public List<EntityRankReport> retrieveOutgoingEntityRankEveryDay() {
 		// Run query to get rank of entity everyday based upon amount in USD
@@ -47,6 +65,9 @@ public class ReportDaoImpl implements ReportDao {
 		return MockDataBase.retrieveOutgoingEntityRankEveryDay();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.dao.ReportDao#retrieveTrades()
+	 */
 	@Override
 	public List<Trade> retrieveTrades() {
 		// Run query to get Report data by applying JOIN etc. query
@@ -54,6 +75,9 @@ public class ReportDaoImpl implements ReportDao {
 		return MockDataBase.getTradeList();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.jpmorgan.trader.dao.ReportDao#saveTradeDetails(java.util.List)
+	 */
 	@Override
 	public void saveTradeDetails(List<TradeDetails> tradeDetailsList) {
 		MockDataBase.saveTradeDetails(tradeDetailsList);
