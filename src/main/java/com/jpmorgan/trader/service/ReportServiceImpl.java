@@ -4,8 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.jpmorgan.trader.dao.ReportDao;
-import com.jpmorgan.trader.dao.ReportDaoImpl;
 import com.jpmorgan.trader.domain.Trade;
 import com.jpmorgan.trader.domain.TradeDetails;
 import com.jpmorgan.trader.value.AmountReport;
@@ -20,8 +22,10 @@ import com.jpmorgan.trader.value.EntityRankReport;
  * @author Administrative
  *
  */
+@Service
 public class ReportServiceImpl implements ReportService {
-	ReportDao reportDao = new ReportDaoImpl();
+	@Autowired
+	private ReportDao reportDao;
 
 	private static final String DATE_DISPLAY_FORMAT = "dd-MMM-yy";
 

@@ -1,5 +1,7 @@
 package com.jpmorgan.trader.dao;
 
+import org.springframework.stereotype.Repository;
+
 import com.jpmorgan.trader.domain.Instruction;
 import com.jpmorgan.trader.mockdata.MockDataBase;
 
@@ -10,6 +12,7 @@ import com.jpmorgan.trader.mockdata.MockDataBase;
  * @author Administrative
  *
  */
+@Repository
 public class InstructionDaoImpl implements InstructionDao {
 	@Override
 	public Instruction saveInstruction(Instruction instruction) {

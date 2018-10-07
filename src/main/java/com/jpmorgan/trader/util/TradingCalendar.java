@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Date util methods specific to this project
  * 
@@ -12,6 +14,7 @@ import java.util.Date;
  * @author Administrative
  *
  */
+@Component
 public class TradingCalendar {
 	/*
 	 * It would return day in three letter..e.g. SUN, MON etc.

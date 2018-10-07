@@ -1,0 +1,9 @@
+instruction: 
+   input:
+      path: ./src/main/resources/instruction/input/
+   done:
+      path: ./src/main/resources/instruction/done/
+   error: 
+      path: ./src/main/resources/instruction/error/
+   upload:
+      path: ./src/main/resources/instruction/upload/

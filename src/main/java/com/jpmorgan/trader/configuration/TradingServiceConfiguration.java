@@ -2,6 +2,7 @@ package com.jpmorgan.trader.configuration;
 
 import java.io.File;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.InboundChannelAdapter;
@@ -18,7 +19,8 @@ import org.springframework.messaging.MessageChannel;
 @Configuration
 @EnableIntegration
 public class TradingServiceConfiguration {
-	public String INPUT_DIR = "C:\\work\\test";
+	@Value("${instruction.input.path}")
+	public String instructionInputPath;
 
 	public String FILE_PATTERN = "*.txt";
 
@@ -31,7 +33,7 @@ public class TradingServiceConfiguration {
 	@InboundChannelAdapter(value = "instructionFileInputChannel", poller = @Poller(fixedDelay = "1000"))
 	public MessageSource<File> fileReadingMessageSource() {
 		FileReadingMessageSource sourceReader = new FileReadingMessageSource();
-		sourceReader.setDirectory(new File(INPUT_DIR));
+		sourceReader.setDirectory(new File(instructionInputPath));
 		sourceReader.setFilter(new SimplePatternFileListFilter(FILE_PATTERN));
 		return sourceReader;
 	}

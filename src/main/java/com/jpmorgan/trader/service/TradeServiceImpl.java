@@ -2,16 +2,21 @@ package com.jpmorgan.trader.service;
 
 import java.math.BigDecimal;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.jpmorgan.trader.dao.TradeDao;
-import com.jpmorgan.trader.dao.TradeDaoImpl;
 import com.jpmorgan.trader.domain.Order;
 import com.jpmorgan.trader.domain.Trade;
 import com.jpmorgan.trader.enums.TradeStatus;
 import com.jpmorgan.trader.util.TradingCalendar;
 
+@Service
 public class TradeServiceImpl implements TradeService {
-	private TradeDao tradeDao = new TradeDaoImpl();
-	private CacheService cacheService = new CacheServiceImpl();
+	@Autowired
+	private TradeDao tradeDao;
+	@Autowired
+	private CacheService cacheService;
 
 	@Override
 	public Trade saveTrade(Order order) {

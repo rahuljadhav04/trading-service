@@ -2,12 +2,15 @@ package com.jpmorgan.trader.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.jpmorgan.trader.domain.Trade;
 import com.jpmorgan.trader.domain.TradeDetails;
 import com.jpmorgan.trader.mockdata.MockDataBase;
 import com.jpmorgan.trader.value.AmountReport;
 import com.jpmorgan.trader.value.EntityRankReport;
 
+@Repository
 public class ReportDaoImpl implements ReportDao {
 
 	@Override

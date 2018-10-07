@@ -1,15 +1,12 @@
 package com.jpmorgan.trader.mockdata;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -23,7 +20,6 @@ import com.jpmorgan.trader.enums.OrderStatus;
 import com.jpmorgan.trader.value.AmountReport;
 import com.jpmorgan.trader.value.EntityRankKey;
 import com.jpmorgan.trader.value.EntityRankReport;
-import com.jpmorgan.trader.value.Message;
 
 /**
  * This is mock data. In real world it would be replaced by JPA/Hibernate calls,
@@ -39,14 +35,6 @@ import com.jpmorgan.trader.value.Message;
 public class MockDataBase {
 	private static List<Trade> tradeList = new ArrayList<>();
 	private static List<TradeDetails> tradeDetailsList = new ArrayList<>();
-
-	// Add data here if you want to test with more data
-	private static String[][] inputInstructionData = {
-			{ "foo", "B", "0.50", "SGP", "2016/01/01", "2016/01/02", "200", "100.25" },
-			{ "bar", "S", "0.22", "AED", "2016/01/05", "2016/01/07", "450", "150.5" } };
-
-	private static List<Message> inputMessages = new ArrayList<>();
-
 	private static int count = 0;
 
 	public static List<CurrencyToWeekEndMapping> getCurrencyToWeekEndMap() {
@@ -56,19 +44,6 @@ public class MockDataBase {
 		currencyToWeekEndMappingList.add(new CurrencyToWeekEndMapping("SAR", "FRI,SAT"));
 
 		return currencyToWeekEndMappingList;
-	}
-
-	public static Instruction getInstruction(String[] message) throws ParseException {
-		Instruction instruction = new Instruction();
-		instruction.setEntityName(message[0]);
-		instruction.setAction(message[1]);
-		instruction.setAgreedFx(new BigDecimal(message[2]));
-		instruction.setCurrency(message[3]);
-		instruction.setInstructionDate(new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(message[4]));
-		instruction.setSettlementDate(new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH).parse(message[5]));
-		instruction.setUnits(new Long(message[6]));
-		instruction.setPricePerUnit(new BigDecimal(message[7]));
-		return instruction;
 	}
 
 	public static Instruction addInstruction(Instruction instruction) {
@@ -125,12 +100,13 @@ public class MockDataBase {
 		Map<Date, BigDecimal> outgoingAmountEveryDayMap = new HashMap<>();
 		for (TradeDetails tradeDetails : tradeDetailsList) {
 			if ("B".equals(tradeDetails.getAction())) {
-				if (outgoingAmountEveryDayMap.get(tradeDetails.getSettlementDate()) == null) {
+				BigDecimal amount = outgoingAmountEveryDayMap.get(tradeDetails.getSettlementDate());
+				if (amount == null) {
 					outgoingAmountEveryDayMap.put(tradeDetails.getSettlementDate(),
 							tradeDetails.getAmountOfTradeInUSD());
 				} else {
-					outgoingAmountEveryDayMap.get(tradeDetails.getSettlementDate())
-							.add(tradeDetails.getAmountOfTradeInUSD());
+					outgoingAmountEveryDayMap.put(tradeDetails.getSettlementDate(),
+							amount.add(tradeDetails.getAmountOfTradeInUSD()));
 				}
 			}
 		}
@@ -146,12 +122,13 @@ public class MockDataBase {
 		Map<Date, BigDecimal> incomingAmountEveryDayMap = new HashMap<>();
 		for (TradeDetails tradeDetails : tradeDetailsList) {
 			if ("S".equals(tradeDetails.getAction())) {
-				if (incomingAmountEveryDayMap.get(tradeDetails.getSettlementDate()) == null) {
+				BigDecimal amount = incomingAmountEveryDayMap.get(tradeDetails.getSettlementDate());
+				if (amount == null) {
 					incomingAmountEveryDayMap.put(tradeDetails.getSettlementDate(),
 							tradeDetails.getAmountOfTradeInUSD());
 				} else {
-					incomingAmountEveryDayMap.get(tradeDetails.getSettlementDate())
-							.add(tradeDetails.getAmountOfTradeInUSD());
+					incomingAmountEveryDayMap.put(tradeDetails.getSettlementDate(),
+							amount.add(tradeDetails.getAmountOfTradeInUSD()));
 				}
 			}
 		}
@@ -169,10 +146,11 @@ public class MockDataBase {
 			if ("B".equals(tradeDetails.getAction())) {
 				EntityRankKey entityRankKey = new EntityRankKey(tradeDetails.getEntityName(),
 						tradeDetails.getSettlementDate());
-				if (incomingEntityRankEveryDayMap.get(entityRankKey) == null) {
+				BigDecimal amount = incomingEntityRankEveryDayMap.get(entityRankKey);
+				if (amount == null) {
 					incomingEntityRankEveryDayMap.put(entityRankKey, tradeDetails.getAmountOfTradeInUSD());
 				} else {
-					incomingEntityRankEveryDayMap.get(entityRankKey).add(tradeDetails.getAmountOfTradeInUSD());
+					incomingEntityRankEveryDayMap.put(entityRankKey, amount.add(tradeDetails.getAmountOfTradeInUSD()));
 				}
 			}
 		}
@@ -196,10 +174,11 @@ public class MockDataBase {
 			if ("S".equals(tradeDetails.getAction())) {
 				EntityRankKey entityRankKey = new EntityRankKey(tradeDetails.getEntityName(),
 						tradeDetails.getSettlementDate());
-				if (outgoingEntityRankEveryDayMap.get(entityRankKey) == null) {
+				BigDecimal amount = outgoingEntityRankEveryDayMap.get(entityRankKey);
+				if (amount == null) {
 					outgoingEntityRankEveryDayMap.put(entityRankKey, tradeDetails.getAmountOfTradeInUSD());
 				} else {
-					outgoingEntityRankEveryDayMap.get(entityRankKey).add(tradeDetails.getAmountOfTradeInUSD());
+					outgoingEntityRankEveryDayMap.put(entityRankKey, amount.add(tradeDetails.getAmountOfTradeInUSD()));
 				}
 			}
 		}
@@ -213,22 +192,13 @@ public class MockDataBase {
 		return entityRankList;
 	}
 
-	public static List<Message> getInputMessages() {
-
-		for (int count = 0; count < inputInstructionData.length; count++) {
-			Message message = new Message();
-			message.setJsonString(inputInstructionData[count]);
-			inputMessages.add(message);
-		}
-		return inputMessages;
-	}
-
 	public static List<TradeDetails> getTradeDetailsList() {
 		return tradeDetailsList;
 	}
 
 	public static void saveTradeDetails(List<TradeDetails> tradeDetailsListP) {
-		tradeDetailsList = tradeDetailsListP;
+		tradeDetailsList.addAll(tradeDetailsListP);
+		System.out.println("trades added:" + tradeDetailsListP.size());
 	}
 
 }

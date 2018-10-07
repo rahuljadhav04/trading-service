@@ -1,7 +1,9 @@
 package com.jpmorgan.trader.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.jpmorgan.trader.dao.InstructionDao;
-import com.jpmorgan.trader.dao.InstructionDaoImpl;
 import com.jpmorgan.trader.domain.Instruction;
 
 /**
@@ -11,8 +13,10 @@ import com.jpmorgan.trader.domain.Instruction;
  * @author Administrative
  *
  */
+@Service
 public class InstructionServiceImpl implements InstructionService {
-	private InstructionDao instructionDao = new InstructionDaoImpl();
+	@Autowired
+	private InstructionDao instructionDao;
 
 	@Override
 	public Instruction saveInstruction(Instruction instruction) {

@@ -3,19 +3,28 @@ package com.jpmorgan.trader.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.jpmorgan.trader.dao.CurrencyToWeekEndMappingDao;
-import com.jpmorgan.trader.dao.CurrencyToWeekEndMappingDaoImpl;
+
 /**
- * Some data like currency to weekend mapping can be cached and refreshed on demand.
+ * Some data like currency to weekend mapping can be cached and refreshed on
+ * demand.
  * 
  * This would improve performance and avoid unnecessary DB calls
+ * 
  * @author Administrative
  *
  */
+@Service
 public class CacheServiceImpl implements CacheService {
 
 	private static Map<String, String> currencyToWeekEndMap = new HashMap<String, String>();
-	private CurrencyToWeekEndMappingDao currencyToWeekEndMappingDao = new CurrencyToWeekEndMappingDaoImpl();
+	@Autowired
+	private CurrencyToWeekEndMappingDao currencyToWeekEndMappingDao;
 
 	@Override
 	public Map<String, String> getCurrencyToWeekEndMap() {
@@ -25,6 +34,7 @@ public class CacheServiceImpl implements CacheService {
 	// Use spring @CacheBuilder, @EnableCache annotation here to run automatically
 	// on spring boot start
 	@Override
+	@PostConstruct
 	public void initializeCache() {
 		// User Redis cache, Gemfire Or Oracle Coherance
 		currencyToWeekEndMap = currencyToWeekEndMappingDao.getCurrencyToWeekEndMap();
