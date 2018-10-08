@@ -6,7 +6,7 @@ package com.jpmorgan.trader.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jpmorgan.trader.dao.OrderDaoImpl;
+import com.jpmorgan.trader.dao.OrderDao;
 import com.jpmorgan.trader.domain.Instruction;
 import com.jpmorgan.trader.domain.Order;
 import com.jpmorgan.trader.mockdata.MockDataBase;
@@ -19,13 +19,17 @@ public class OrderServiceImpl implements OrderService {
 
 	/** The order dao. */
 	@Autowired
-	private OrderDaoImpl orderDao;
-	
+	private OrderDao orderDao;
+
 	/** The count. */
 	private static int count = 0;
 
-	/* (non-Javadoc)
-	 * @see com.jpmorgan.trader.service.OrderService#executeOrder(com.jpmorgan.trader.domain.Instruction)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.jpmorgan.trader.service.OrderService#executeOrder(com.jpmorgan.trader.
+	 * domain.Instruction)
 	 */
 	@Override
 	// In real world, it can be some external service which will execute order

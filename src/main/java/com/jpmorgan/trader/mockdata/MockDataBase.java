@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jpmorgan.trader.domain.CurrencyToWeekEndMapping;
 import com.jpmorgan.trader.domain.Instruction;
 import com.jpmorgan.trader.domain.Order;
@@ -37,15 +40,17 @@ import com.jpmorgan.trader.value.EntityRankReport;
  *
  */
 public class MockDataBase {
-	
+
 	/** The trade list. */
 	private static List<Trade> tradeList = new ArrayList<>();
-	
+
 	/** The trade details list. */
 	private static List<TradeDetails> tradeDetailsList = new ArrayList<>();
-	
+
 	/** The count. */
 	private static int count = 0;
+
+	private static Logger LOGGER = LoggerFactory.getLogger(MockDataBase.class);
 
 	/**
 	 * Gets the currency to week end map.
@@ -95,15 +100,19 @@ public class MockDataBase {
 		if (count % 2 == 0) {
 			// if the entity is available at the price ordered then it can executed with
 			// success
+			LOGGER.info("order successful");
 			return OrderStatus.SUCCESS;
 		} else if (count % 3 == 0) {
 			// If the entity is NOT available at the price it is ordered
 			// then order will remain in pending state
+			LOGGER.info("order in pending state");
 			return OrderStatus.PENDING;
 		} else if (count % 5 == 0) {
 			// if the money in account is less than the order amount then it can be rejected
+			LOGGER.info("order rejected");
 			return OrderStatus.REJECTED;
 		} else {
+			LOGGER.info("order successful");
 			return OrderStatus.SUCCESS;
 		}
 	}

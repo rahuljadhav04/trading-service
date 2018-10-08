@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,7 @@ import com.jpmorgan.trader.value.EntityRankReport;
  */
 @Service
 public class ReportServiceImpl implements ReportService {
-	
+
 	/** The report dao. */
 	@Autowired
 	private ReportDao reportDao;
@@ -35,7 +37,11 @@ public class ReportServiceImpl implements ReportService {
 	/** The Constant DATE_DISPLAY_FORMAT. */
 	private static final String DATE_DISPLAY_FORMAT = "dd-MMM-yy";
 
-	/* (non-Javadoc)
+	private static Logger LOGGER = LoggerFactory.getLogger(ReportServiceImpl.class);
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.jpmorgan.trader.service.ReportService#saveReport()
 	 */
 	@Override
@@ -66,7 +72,9 @@ public class ReportServiceImpl implements ReportService {
 		reportDao.saveTradeDetails(tradeDetailsList);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.jpmorgan.trader.service.ReportService#generateReport()
 	 */
 	@Override

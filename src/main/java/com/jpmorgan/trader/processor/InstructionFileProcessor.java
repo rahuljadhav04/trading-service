@@ -16,6 +16,8 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.Message;
@@ -54,15 +56,15 @@ public class InstructionFileProcessor {
 	/** The instruction done path. */
 	@Value("${instruction.done.path}")
 	public String instructionDonePath;
-	
+
 	/** The instruction error path. */
 	@Value("${instruction.error.path}")
 	public String instructionErrorPath;
-	
+
 	/** The instruction success path. */
 	@Value("${instruction.success.path}")
 	public String instructionSuccessPath;
-	
+
 	/** The instruction input file pattern. */
 	@Value("${instruction.input.pattern}")
 	private String instructionInputFilePattern;
@@ -73,6 +75,7 @@ public class InstructionFileProcessor {
 
 	/** The Constant CHAR_ENCODING. */
 	private static final String CHAR_ENCODING = "UTF-8";
+	private static Logger LOGGER = LoggerFactory.getLogger(InstructionFileProcessor.class);
 
 	/**
 	 * Creates the directories.
@@ -92,7 +95,7 @@ public class InstructionFileProcessor {
 	 * @throws Exception the exception
 	 */
 	public void processInstruction(Message<File> msg) throws Exception {
-		System.out.println("Inside processInstruction");
+		LOGGER.info("Inside processInstruction");
 		File file = msg.getPayload();
 		if (!deleteFileIfInValidExtention(file)) {
 			List<String> instructionMessageList = FileUtils.readLines(file, CHAR_ENCODING);
@@ -112,11 +115,11 @@ public class InstructionFileProcessor {
 		// this is to generate report quickly
 		// There would be batch job running daily to store data in report format
 		reportService.saveReport();
-		System.out.println("Report data saved");
+		LOGGER.info("Report data saved");
 		// Retrieve the data stored in report format
-		System.out.println("Generating report");
+		LOGGER.info("Generating report");
 		reportService.generateReport();
-		System.out.println("Report generated and displayed");
+		LOGGER.info("Report generated and displayed");
 	}
 
 	/**
@@ -127,7 +130,7 @@ public class InstructionFileProcessor {
 	 */
 	private boolean deleteFileIfInValidExtention(File file) {
 		if (!FilenameUtils.wildcardMatch(file.getName(), instructionInputFilePattern, IOCase.INSENSITIVE)) {
-			System.out.println("File with invalid extention uploaded. Deleting file. Accepted extention is "
+			LOGGER.info("File with invalid extention uploaded. Deleting file. Accepted extention is "
 					+ instructionInputFilePattern);
 			file.delete();
 			return true;
@@ -138,13 +141,13 @@ public class InstructionFileProcessor {
 	/**
 	 * Delete file if empty content.
 	 *
-	 * @param file the file
+	 * @param file                   the file
 	 * @param instructionMessageList the instruction message list
 	 * @return true, if successful
 	 */
 	private boolean deleteFileIfEmptyContent(File file, List<String> instructionMessageList) {
 		if (CollectionUtils.isEmpty(instructionMessageList)) {
-			System.out.println("Empty file received. Deleting file");
+			LOGGER.info("Empty file received. Deleting file");
 			file.delete();
 			return true;
 		}
@@ -154,12 +157,12 @@ public class InstructionFileProcessor {
 	/**
 	 * Proces file.
 	 *
-	 * @param file the file
+	 * @param file                   the file
 	 * @param instructionMessageList the instruction message list
 	 * @throws InvalidInstructionException the invalid instruction exception
-	 * @throws ParseException the parse exception
-	 * @throws InvalidActionException the invalid action exception
-	 * @throws Exception the exception
+	 * @throws ParseException              the parse exception
+	 * @throws InvalidActionException      the invalid action exception
+	 * @throws Exception                   the exception
 	 */
 	private void procesFile(File file, List<String> instructionMessageList)
 			throws InvalidInstructionException, ParseException, InvalidActionException, Exception {
@@ -175,20 +178,20 @@ public class InstructionFileProcessor {
 	/**
 	 * After instruction processing.
 	 *
-	 * @param proccesedInstructions the proccesed instructions
+	 * @param proccesedInstructions   the proccesed instructions
 	 * @param erroroneousInstructions the erroroneous instructions
-	 * @param file the file
+	 * @param file                    the file
 	 * @throws Exception the exception
 	 */
 	private void afterInstructionProcessing(List<String> proccesedInstructions, List<String> erroroneousInstructions,
 			File file) throws Exception {
 		if (!CollectionUtils.isEmpty(proccesedInstructions)) {
-			System.out.println("Writing processed instructions to success file");
+			LOGGER.info("Writing processed instructions to success file");
 			FileUtils.writeLines(new File(instructionSuccessPath, file.getName() + ".success"), proccesedInstructions,
 					"\r\n");
 		}
 		if (!CollectionUtils.isEmpty(erroroneousInstructions)) {
-			System.out.println("Writing erroneous instructions to error file");
+			LOGGER.info("Writing erroneous instructions to error file");
 			FileUtils.writeLines(new File(instructionErrorPath, file.getName() + ".error"), erroroneousInstructions,
 					"\r\n");
 		}
@@ -204,12 +207,13 @@ public class InstructionFileProcessor {
 	private void copyFileToDoneFolder(File file) {
 		boolean isFileRenamed = file.renameTo(new File(instructionDonePath, file.getName()));
 		if (isFileRenamed) {
-			System.out.println("File moved to done folder");
+			LOGGER.info("File moved to done folder");
 		} else {
+			// file already exists with same name
 			isFileRenamed = file
 					.renameTo(new File(instructionDonePath, file.getName() + "_" + System.currentTimeMillis()));
 			if (isFileRenamed) {
-				System.out.println("File moved to done folder");
+				LOGGER.info("File moved to done folder");
 			}
 		}
 	}

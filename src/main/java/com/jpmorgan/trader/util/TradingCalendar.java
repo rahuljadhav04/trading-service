@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TradingCalendar {
-	
+
 	/** The Constant INSTRUCTION_INPUT_DATE_FORMAT. */
 	public static final String INSTRUCTION_INPUT_DATE_FORMAT = "yyyy/MM/dd";
 
@@ -38,36 +38,41 @@ public class TradingCalendar {
 	}
 
 	/**
-	 * It has logic to get next working date if settlement day fall on weekend.
-	 *
+	 * It has logic to get next working date if settlement day fall on weekend. It
+	 * would return T + 2 working date from trade date.
+	 * 
 	 * @param tradeDate the trade date
-	 * @param weekEnd the week end
+	 * @param weekEnd   the week end
 	 * @return the settlement date
 	 */
 	public static Date getSettlementDate(Date tradeDate, String weekEnd) {
-		Date settlementDate = getTPlusTwoDate(tradeDate);
-		String day = TradingCalendar.getDayFromDate(settlementDate);
-		while (weekEnd.contains(day)) {
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(settlementDate);
-			calendar.add(Calendar.DATE, 1);
-			settlementDate = calendar.getTime();
-			day = TradingCalendar.getDayFromDate(settlementDate);
-		}
-		return settlementDate;
+		Date tradeDatePlusOneWorking = getTPlusOneWorkingDay(tradeDate, weekEnd);
+		Date tradeDatePlusTwoWorking = getTPlusOneWorkingDay(tradeDatePlusOneWorking, weekEnd);
+		return tradeDatePlusTwoWorking;
 	}
 
 	/**
-	 * It would return T + 2 date from trade date.
+	 * It would return T + 1 working date from trade date.
 	 *
 	 * @param tradeDate the trade date
 	 * @return the t plus two date
 	 */
-	public static Date getTPlusTwoDate(Date tradeDate) {
+	public static Date getTPlusOneWorkingDay(Date tradeDate, String weekEnd) {
+		tradeDate = getTPlusOneDay(tradeDate);
+		String day = TradingCalendar.getDayFromDate(tradeDate);
+		while (weekEnd.contains(day)) {
+			tradeDate = getTPlusOneDay(tradeDate);
+			day = TradingCalendar.getDayFromDate(tradeDate);
+		}
+		return tradeDate;
+	}
+
+	public static Date getTPlusOneDay(Date date) {
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(tradeDate);
-		calendar.add(Calendar.DATE, 2);
-		return calendar.getTime();
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE, 1);
+		date = calendar.getTime();
+		return date;
 	}
 
 	/**
@@ -78,6 +83,8 @@ public class TradingCalendar {
 	 * @throws ParseException the parse exception
 	 */
 	public static Date getDateYYYYMMDD(String strDate) throws ParseException {
-		return new SimpleDateFormat(INSTRUCTION_INPUT_DATE_FORMAT, Locale.ENGLISH).parse(strDate);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(INSTRUCTION_INPUT_DATE_FORMAT, Locale.ENGLISH);
+		simpleDateFormat.setLenient(false);// will not do rounding for invalid dates
+		return simpleDateFormat.parse(strDate);
 	}
 }

@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -23,20 +25,22 @@ import com.jpmorgan.trader.util.TradingCalendar;
  */
 @Component
 public class InstructionProcessor {
-	
+
 	/** The instruction validator. */
 	@Autowired
 	InstructionValidator instructionValidator;
-	
+
 	/** The instruction listner. */
 	@Autowired
 	private InstructionListner instructionListner;
 
+	private static Logger LOGGER = LoggerFactory.getLogger(InstructionProcessor.class);
+
 	/**
 	 * Process instructions.
 	 *
-	 * @param instructionMessageList the instruction message list
-	 * @param proccesedInstructions the proccesed instructions
+	 * @param instructionMessageList  the instruction message list
+	 * @param proccesedInstructions   the proccesed instructions
 	 * @param erroroneousInstructions the erroroneous instructions
 	 */
 	public void processInstructions(List<String> instructionMessageList, List<String> proccesedInstructions,
@@ -44,18 +48,18 @@ public class InstructionProcessor {
 		// The instructions can be processed in parallel as they are not dependent upon
 		// each other.
 		// this will improve performance
-		System.out.println("Before parallel processing");
+		LOGGER.info("Before parallel processing");
 		instructionMessageList.parallelStream()
 				.forEach(instructionMessage -> procesInstructionMessageInParallel(instructionMessage,
 						proccesedInstructions, erroroneousInstructions));
-		System.out.println("parallel processing done");
+		LOGGER.info("parallel processing done");
 	}
 
 	/**
 	 * Proces instruction message in parallel.
 	 *
-	 * @param instructionMessage the instruction message
-	 * @param proccesedInstructions the proccesed instructions
+	 * @param instructionMessage      the instruction message
+	 * @param proccesedInstructions   the proccesed instructions
 	 * @param erroroneousInstructions the erroroneous instructions
 	 */
 	private void procesInstructionMessageInParallel(String instructionMessage, List<String> proccesedInstructions,
@@ -66,7 +70,7 @@ public class InstructionProcessor {
 			instructionListner.onMessage(instruction);
 			proccesedInstructions.add(instructionMessage);
 		} catch (Exception e) {
-			System.out.println("ERROR:" + e.getMessage());
+			LOGGER.error("ERROR:" + e.getMessage());
 			erroroneousInstructions.add(instructionMessage + ", " + e.getMessage());
 		}
 	}
@@ -76,7 +80,7 @@ public class InstructionProcessor {
 	 *
 	 * @param instructionMessage the instruction message
 	 * @return the instruction
-	 * @throws ParseException the parse exception
+	 * @throws ParseException         the parse exception
 	 * @throws InvalidActionException the invalid action exception
 	 */
 	private Instruction getInstruction(String instructionMessage) throws ParseException, InvalidActionException {
